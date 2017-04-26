@@ -122,7 +122,6 @@ app.get("/", (req, res) => {
           'User-Agent': `${ghInfo.username}`,
           'Authorization': `token ${ghInfo.token}`
         }
-        console.log(url);
         request({
           url: url, 
           headers: headers}, 
@@ -133,18 +132,20 @@ app.get("/", (req, res) => {
     }
       
     Promise.all([fbPromise, ghPromise]).then(([fbData, ghData]) => {
-      let pictures, repoNames;
+
+      let pictures, repoNamesUrls;
       if (fbData) {
         pictures = fbData.data;
       }
       if (ghData) {
         ghData = JSON.parse(ghData);
+
         ghData = ghData.map((repo) => {
-          return repo.name;
+          return {name: repo.name, url: repo.html_url};
         })
-        repoNames = ghData;
+        repoNamesUrls = ghData;
       }
-      res.render("home", { user: req.user, pictures, repoNames });
+      res.render("home", { user: req.user, pictures, repoNamesUrls });
     })
 
   } else {
@@ -158,7 +159,6 @@ app.get("/login", (req, res) => {
 
 app.get("/logout", function(req, res) {
   req.logout();
-  console.log(req.user);
   res.redirect("/");
 });
 

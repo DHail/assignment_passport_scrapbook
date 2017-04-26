@@ -39,16 +39,13 @@
 		</div>
 	{{/if}}
 
-	{{#if repoNames}}
+	{{#if repoNamesUrls}}
 		<div class="col-sm-6">
-			<div class="row">
-				<h4>Github Repos</h4>
-				{{#each repoNames as |repoName|}}
-					<div class="col-sm-4">
-						<p>{{repoName}}</p>
-					</div>
-				{{/each}}
-			</div>
+			<h4>Github Repos</h4>
+			{{#each repoNamesUrls as |repoNameUrl|}}
+				<p><a href="{{repoNameUrl.url}}">{{repoNameUrl.name}}</a></p>
+
+			{{/each}}
 		</div>
 	{{/if}}
 
